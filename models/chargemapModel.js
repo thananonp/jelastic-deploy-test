@@ -5,7 +5,15 @@ const Schema = mongoose.Schema;
 const chargeMap = new Schema({
     _id: {type: Schema.Types.ObjectId},
     Location: {
-        coordinates: {type: [Number]}, type: {type: String}
+        coordinates: {
+            type: [Number],
+            required: true
+        },
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        }
     },
     Connections: {type: [Schema.Types.ObjectId]},
     Title: {type: String},
