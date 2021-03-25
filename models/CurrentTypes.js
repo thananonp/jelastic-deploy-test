@@ -7,7 +7,6 @@ const CurrentTypes = new Schema({
     },
     Title: {
         type: String
-
     }
 }, {collection: 'currenttypes'})
 module.exports = mongoose.model('CurrentTypes', CurrentTypes)

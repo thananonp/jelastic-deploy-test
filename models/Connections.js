@@ -16,4 +16,5 @@ const Connections = new Schema({
         type: Number
     }
 }, {collection: 'connections'})
+
 module.exports = mongoose.model('Connections', Connections)
