@@ -37,8 +37,9 @@ chargeMapRouter
     })
     .post(async (req, res) => {
         const receivedStation = req.body
+        //validation failed
+        // receivedStation.Station.Connections = req.body.Connections
         console.log(receivedStation)
-        receivedStation.Connections = req.body.Connections
         await chargemapStations.create(receivedStation.Station)
             .then(result => res.send(result))
             .catch(e => {
@@ -56,6 +57,15 @@ chargeMapRouter
             .find({"_id": req.params.id})
             .then(
                 (chargeStation) => res.send(chargeStation)
+            ).catch(e => {
+                res.sendStatus(404)
+            });
+    })
+    .delete(async (req, res) => {
+        await chargemapStations
+            .deleteOne({"_id": req.params.id})
+            .then(
+                res.sendStatus(200)
             ).catch(e => {
                 res.sendStatus(404)
             });

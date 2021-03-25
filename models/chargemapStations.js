@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const chargemapConnections = require('./chargeMapConnection')
 
 const Schema = mongoose.Schema;
 
@@ -23,16 +24,10 @@ const Stations = new Schema({
     },
     Connections: {
         type: [
-            "Mixed"
+            String
         ]
     }
 }, {collection: 'stations'})
-
-
-
-
-
-
 
 
 module.exports = mongoose.model('chargemapStations', Stations)
