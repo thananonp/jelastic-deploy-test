@@ -3,17 +3,30 @@ const chargeMap = require('../models/chargemapModel');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 chargeMapRouter
-    .route('/:id')
+    .route('/stations/')
     .get(async (req, res) => {
-        console.log(req.params.id)
-        res.send(await chargeMap.find({"_id":req.params.id}))
-        // res.send(await chargeMap.find({_id:ObjectId(req.params.id)}))
-        // console.log(chargeMap)
-        // res.send(await chargeMap.find({"Title" : "K Supermarket Mankkaa"}))
-        // res.send(await chargeMap.findById(ObjectId(req.params.id)));
+        const limit = req.query.limit ? Number(req.query.limit) : 10;
+        console.log("/stations limit=", limit)
+        await chargeMap
+            .find()
+            .limit(limit)
+            .then(
+                (allChargeMap) => res.send(allChargeMap)
+            ).catch(e => {
+                res.sendStatus(400)
+            });
     })
 
-    // .get(async (req, res) => {
-    //     res.send(await cat.findById(req.params.id));
-    // })
+chargeMapRouter
+    .route('/station/:id')
+    .get(async (req, res) => {
+        console.log(req.params.id)
+        await chargeMap
+            .find({"_id": req.params.id})
+            .then(
+                (chargeStation) => res.send(chargeStation)
+            ).catch(e => {
+                res.sendStatus(404)
+            });
+    })
 module.exports = chargeMapRouter;
