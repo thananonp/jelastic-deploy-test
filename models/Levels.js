@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const Level = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId
-    },
+const Levels = new Schema({
     Comments: {
         type: String
     },
@@ -14,10 +11,7 @@ const Level = new Schema({
     },
     Title: {
         type: String
-    },
-    __v: {
-        type: Number
     }
-})
+},{collection:'levels'})
 
-module.exports = mongoose.model('chargemapLevel', Level)
+module.exports = mongoose.model('levels', Levels)

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const chargemapConnections = require('./chargeMapConnection')
+const chargemapConnections = require('./Connections')
 
 const Schema = mongoose.Schema;
 
@@ -10,7 +10,7 @@ const Stations = new Schema({
     AddressLine1: {type: String},
     StateOrProvince: {type: String},
     Postcode: {type: String},
-    __v: {type: Number},
+    // __v: {type: Number},
     Location: {
         coordinates: {
             type: [Number],
@@ -22,11 +22,9 @@ const Stations = new Schema({
             default: 'Point'
         }
     },
-    Connections: {
-        type: [
-            String
-        ]
-    }
+    Connections: [
+        {type: Schema.Types.ObjectId, ref: 'Connections'}
+    ]
 }, {collection: 'stations'})
 
 

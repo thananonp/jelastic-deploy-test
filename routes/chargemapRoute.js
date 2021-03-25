@@ -1,5 +1,5 @@
 const chargeMapRouter = require('express').Router();
-const chargemapStations = require('../models/chargemapStations');
+const Stations = require('../models/Stations');
 const ObjectId = require('mongoose').Types.ObjectId;
 const rectanglesBounds = require('../utils/utilFunction')
 
@@ -9,7 +9,7 @@ chargeMapRouter
         const limit = req.query.limit ? Number(req.query.limit) : 10;
         console.log("/stations limit=", limit)
         if (req.query.topRight === undefined && req.query.bottomLeft === undefined) {
-            await chargemapStations
+            await Stations
                 .find()
                 .limit(limit)
                 .then(
@@ -40,7 +40,7 @@ chargeMapRouter
         //validation failed
         // receivedStation.Station.Connections = req.body.Connections
         console.log(receivedStation)
-        await chargemapStations.create(receivedStation.Station)
+        await Stations.create(receivedStation.Station)
             .then(result => res.send(result))
             .catch(e => {
                 console.log(e)
@@ -53,7 +53,7 @@ chargeMapRouter
     .route('/station/:id')
     .get(async (req, res) => {
         console.log(req.params.id)
-        await chargemapStations
+        await Stations
             .find({"_id": req.params.id})
             .then(
                 (chargeStation) => res.send(chargeStation)
@@ -62,7 +62,7 @@ chargeMapRouter
             });
     })
     .delete(async (req, res) => {
-        await chargemapStations
+        await Stations
             .deleteOne({"_id": req.params.id})
             .then(
                 res.sendStatus(200)
