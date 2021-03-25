@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Stations = new Schema({
-    _id: {type: Schema.Types.ObjectId},
+    // _id: {type: Schema.Types.ObjectId},
     Title: {type: String},
     Town: {type: String},
     AddressLine1: {type: String},

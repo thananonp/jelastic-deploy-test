@@ -1,5 +1,5 @@
 const chargeMapRouter = require('express').Router();
-const chargeMap = require('../models/chargemapStations');
+const chargemapStations = require('../models/chargemapStations');
 const ObjectId = require('mongoose').Types.ObjectId;
 const rectanglesBounds = require('../utils/utilFunction')
 
@@ -9,7 +9,7 @@ chargeMapRouter
         const limit = req.query.limit ? Number(req.query.limit) : 10;
         console.log("/stations limit=", limit)
         if (req.query.topRight === undefined && req.query.bottomLeft === undefined) {
-            await chargeMap
+            await chargemapStations
                 .find()
                 .limit(limit)
                 .then(
@@ -37,11 +37,9 @@ chargeMapRouter
     })
     .post(async (req, res) => {
         const receivedStation = req.body
-        const newConnections = receivedStation.Connections
-        chargeMap.Connections.create(newConnections)
-        console.log(receivedStation.Connections)
-        console.log(newStation)
-        await chargeMap.create(newStation)
+        console.log(receivedStation)
+        receivedStation.Connections = req.body.Connections
+        await chargemapStations.create(receivedStation.Station)
             .then(result => res.send(result))
             .catch(e => {
                 console.log(e)
@@ -54,7 +52,7 @@ chargeMapRouter
     .route('/station/:id')
     .get(async (req, res) => {
         console.log(req.params.id)
-        await chargeMap
+        await chargemapStations
             .find({"_id": req.params.id})
             .then(
                 (chargeStation) => res.send(chargeStation)
