@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const db = require('./utils/db');
 const requestLogger = require('./utils/requestLogger')
 
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(requestLogger)
 

@@ -1,5 +1,5 @@
 const chargeMapRouter = require('express').Router();
-const chargeMap = require('../models/chargemapModel');
+const chargeMap = require('../models/chargemapStations');
 const ObjectId = require('mongoose').Types.ObjectId;
 const rectanglesBounds = require('../utils/utilFunction')
 
@@ -34,6 +34,20 @@ chargeMapRouter
         } else {
             res.sendStatus(400)
         }
+    })
+    .post(async (req, res) => {
+        const receivedStation = req.body
+        const newConnections = receivedStation.Connections
+        chargeMap.Connections.create(newConnections)
+        console.log(receivedStation.Connections)
+        console.log(newStation)
+        await chargeMap.create(newStation)
+            .then(result => res.send(result))
+            .catch(e => {
+                console.log(e)
+                res.send(e)
+            })
+        // res.sendStatus(200)
     })
 
 chargeMapRouter
