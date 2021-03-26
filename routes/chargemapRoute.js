@@ -58,7 +58,7 @@ chargeMapRouter
     })
     .post(async (req, res) => {
         const receivedStation = req.body
-        let b = receivedStation.Connections.map(connection => {
+        let arrayForInsertingObjectId = receivedStation.Connections.map(connection => {
             return {
                 ConnectionTypeID: ObjectId(connection.ConnectionTypeID),
                 LevelID: ObjectId(connection.LevelID),
@@ -67,8 +67,8 @@ chargeMapRouter
             }
         })
 
-        async function createConnnection(array) {
-            return b.map(async connection => {
+        async function createConnection(array) {
+            return array.map(async connection => {
                 await Connections.create(connection, async (err, result) => {
                     receivedStation.Station.Connections = result
                     console.log('receivedStation', receivedStation)
@@ -91,7 +91,20 @@ chargeMapRouter
             })
         }
 
-        await createConnnection(b)
+        await createConnection(arrayForInsertingObjectId)
+    })
+    .patch(async (req, res) => {
+        const receivedStation = req.body
+        const editingIdStation = receivedStation.Station._id
+        console.log(editingIdStation)
+        const editStation = Stations
+            .findOne({"_id": editingIdStation})
+            .populate(populateChild)
+            .then(result => {
+
+            })
+        console.log(editStation)
+
     })
 
 chargeMapRouter
