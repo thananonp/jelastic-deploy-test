@@ -9,7 +9,7 @@ const requestLogger = require('./utils/requestLogger')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(requestLogger)
+// app.use(requestLogger)
 
 db.on('connected', () => {
     app.listen(3000);

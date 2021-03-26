@@ -49,21 +49,40 @@ chargeMapRouter
             }
         })
 
-        let c = b.map(async connection => {
-            const id = await Connections.create(connection)
-            // .then(response => {
-            //     // console.log(response)
-            //     return response
-            // }).catch(e => res.send(e))
-            console.log('hee', id)
-            return id._id
-        })
+        function createConenction(array) {
+            b.map(async connection => {
+                await Connections.create(connection, (err, small) => {
+                    console.log("err", err)
+                    console.log("small", small)
+                    return (small)
+                })
+            })
+        }
 
-        let d = c.map((ele)=>{
-            console.log("ele",ele);
-            return ele.then((val)=> val);
+        let c = await b.map(async connection => {
+            await Connections.create(connection, (err, small) => {
+                console.log("err", err)
+                console.log("small", small)
+                return (small)
+            })
         })
-        console.log('dddddd',d)
+        c.then(small => {
+                receivedStation.Station.Conenctions = small
+                console.log('receivedStation', receivedStation)
+                Stations.create(receivedStation.Station)
+                    .then(result => res.send(result))
+                    .catch(e => {
+                        console.log(e)
+                        res.send(e)
+                    })
+            }
+        )
+
+        // let d = c.map((ele)=>{
+        //     console.log("ele",ele);
+        //     return ele.then((val)=> val);
+        // })
+        // console.log('dddddd',d)
         // console.log("zzzsz", c)
         // receivedStation.Station.Connections = c
 
@@ -81,14 +100,14 @@ chargeMapRouter
         //     return element.resolve();
         // })
 
-        console.log('receivedStation', receivedStation)
-        await Stations.create(receivedStation.Station)
-            .then(result => res.send(result))
-            .catch(e => {
-                console.log(e)
-                res.send(e)
-            })
-        res.sendStatus(200)
+        // console.log('receivedStation', receivedStation)
+        // Stations.create(receivedStation.Station)
+        //     .then(result => res.send(result))
+        //     .catch(e => {
+        //         console.log(e)
+        //         res.send(e)
+        //     })
+        // res.sendStatus(200)
     })
 
 chargeMapRouter
