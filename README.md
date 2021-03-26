@@ -1,3 +1,9 @@
-# node-mongo
+# week-2-chargemap
 
-Demo with Node.js and mongoose (connecting Mongo Database)
+## About
+https://gitlab.metropolia.fi/ilkkamtk/sssf-course/-/blob/master/week2/homework.md
+This project is a homework of week 2. And this repo should be on Metropolia Jelastic.
+
+## Command
+To run `npm start`
+To test `npm run dev`
