@@ -96,14 +96,40 @@ chargeMapRouter
     .patch(async (req, res) => {
         const receivedStation = req.body
         const editingIdStation = receivedStation.Station._id
-        console.log(editingIdStation)
-        const editStation = Stations
-            .findOne({"_id": editingIdStation})
+        receivedStation.Connections.map(async connection => {
+                await Connections
+                    .findOneAndUpdate({_id: connection._id}, {
+                        ConnectionTypeID: ObjectId(connection.ConnectionTypeID),
+                        CurrentTypeID: ObjectId(connection.CurrentTypeID),
+                        LevelID: ObjectId(connection.LevelID),
+                        Quantity: connection.Quantity
+                    }, {new: true})
+                    .then(result => {
+                        console.log("RESULT", result)
+                    }).catch(e => {
+                        console.log(e)
+                        res.sendStatus(400)
+                    })
+            }
+        )
+        Stations
+            .findOneAndUpdate({"_id": editingIdStation}, {
+                Title: receivedStation.Station.Title,
+                Town: receivedStation.Station.Town,
+                AddressLine1: receivedStation.Station.AddressLine1,
+                StateOrProvince: receivedStation.Station.StateOrProvince,
+                Postcode: receivedStation.Station.Postcode,
+                Location: receivedStation.Station.Location,
+                Connections: receivedStation.Connections
+            })
             .populate(populateChild)
             .then(result => {
-
-            })
-        console.log(editStation)
+                res.send(result)
+            }).catch(e => {
+            console.log(e)
+            res.sendStatus(400)
+        })
+        // console.log(editStation)
 
     })
 
@@ -117,6 +143,7 @@ chargeMapRouter
             .then(
                 (chargeStation) => res.send(chargeStation)
             ).catch(e => {
+                console.log(e)
                 res.sendStatus(404)
             });
     })
@@ -126,6 +153,7 @@ chargeMapRouter
             .then(
                 res.sendStatus(200)
             ).catch(e => {
+                console.log(e)
                 res.sendStatus(404)
             });
     })
