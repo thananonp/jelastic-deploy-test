@@ -22,6 +22,6 @@ db.on('connected', () => {
 // for parsing html form x-www-form-urlencoded
 // and/or app.use(express.json()); // for parsing application/json
 app.use('/auth', require('./routes/AuthRoute'))
-app.use('/cat', require('./routes/catRoute'));
+// app.use('/cat', require('./routes/catRoute'));
 app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
 
