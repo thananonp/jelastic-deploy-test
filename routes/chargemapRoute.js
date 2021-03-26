@@ -1,8 +1,25 @@
-const chargeMapRouter = require('express').Router();
 const Stations = require('../models/Stations');
 const Connections = require('../models/Connections')
-const ObjectId = require('mongoose').Types.ObjectId;
+const CurrentTypes = require('../models/CurrentTypes')
+const ConnectionTypes = require('../models/ConnectionTypes')
+const Levels = require('../models/Levels')
 const rectanglesBounds = require('../utils/utilFunction')
+const ObjectId = require('mongoose').Types.ObjectId;
+const chargeMapRouter = require('express').Router();
+
+const populateChild = {
+    path: 'Connections', model: 'Connections',
+    populate: [{
+        path: 'ConnectionTypeID',
+        model: ConnectionTypes
+    }, {
+        path: 'LevelID',
+        model: Levels
+    }, {
+        path: 'CurrentTypeID',
+        model: CurrentTypes
+    }]
+}
 
 chargeMapRouter
     .route('/stations/')
@@ -13,17 +30,18 @@ chargeMapRouter
             await Stations
                 .find()
                 .limit(limit)
-                .populate('Connections')
+                .populate(populateChild)
                 .then(
                     (allChargeMap) => res.send(allChargeMap)
                 ).catch(e => {
+                    console.log(e)
                     res.sendStatus(400)
                 });
         } else if (req.query.topRight && req.query.bottomLeft) {
             const topRight = JSON.parse(req.query.topRight)
             const bottomLeft = JSON.parse(req.query.bottomLeft)
             const result = rectanglesBounds(topRight, bottomLeft)
-            await chargeMap
+            await Stations
                 .find({
                     Location: {
                         $geoWithin: {
@@ -31,7 +49,7 @@ chargeMapRouter
                         }
                     }
                 })
-                .populate('Connections')
+                .populate(populateChild)
                 .then(response => res.send(response))
                 .catch(e => res.send(e))
         } else {
@@ -49,65 +67,31 @@ chargeMapRouter
             }
         })
 
-        function createConenction(array) {
-            b.map(async connection => {
-                await Connections.create(connection, (err, small) => {
-                    console.log("err", err)
-                    console.log("small", small)
-                    return (small)
+        async function createConnnection(array) {
+            return b.map(async connection => {
+                await Connections.create(connection, async (err, result) => {
+                    receivedStation.Station.Connections = result
+                    console.log('receivedStation', receivedStation)
+                    await Stations.create(receivedStation.Station)
+                        .then(async result => {
+                            await Stations
+                                .find({'_id': result._id})
+                                .populate(populateChild)
+                                .then(
+                                    (allChargeMap) => res.send(allChargeMap)
+                                ).catch(e => {
+                                    res.sendStatus(400)
+                                });
+                        })
+                        .catch(e => {
+                            console.log(e)
+                            res.send(e)
+                        })
                 })
             })
         }
 
-        let c = await b.map(async connection => {
-            await Connections.create(connection, (err, small) => {
-                console.log("err", err)
-                console.log("small", small)
-                return (small)
-            })
-        })
-        c.then(small => {
-                receivedStation.Station.Conenctions = small
-                console.log('receivedStation', receivedStation)
-                Stations.create(receivedStation.Station)
-                    .then(result => res.send(result))
-                    .catch(e => {
-                        console.log(e)
-                        res.send(e)
-                    })
-            }
-        )
-
-        // let d = c.map((ele)=>{
-        //     console.log("ele",ele);
-        //     return ele.then((val)=> val);
-        // })
-        // console.log('dddddd',d)
-        // console.log("zzzsz", c)
-        // receivedStation.Station.Connections = c
-
-        //validation failed
-        // receivedStation.Station.Connections = b.map(async connection => {
-        //     const id = await Connections.create(connection)
-        //     // .then(response => {
-        //     //     // console.log(response)
-        //     //     return response
-        //     // }).catch(e => res.send(e))
-        //     console.log('hee', id)
-        //     return id._id
-        // }).map((element)=>{
-        //     console.log(element);
-        //     return element.resolve();
-        // })
-
-        // console.log('receivedStation', receivedStation)
-        // Stations.create(receivedStation.Station)
-        //     .then(result => res.send(result))
-        //     .catch(e => {
-        //         console.log(e)
-        //         res.send(e)
-        //     })
-        // res.sendStatus(200)
+        await createConnnection(b)
     })
 
 chargeMapRouter
@@ -116,7 +100,7 @@ chargeMapRouter
         console.log(req.params.id)
         await Stations
             .find({"_id": req.params.id})
-            .populate('Connections')
+            .populate(populateChild)
             .then(
                 (chargeStation) => res.send(chargeStation)
             ).catch(e => {

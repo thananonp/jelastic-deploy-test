@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const chargemapConnections = require('./Connections')
 
 const Schema = mongoose.Schema;
 
@@ -28,4 +27,4 @@ const Stations = new Schema({
 }, {collection: 'stations'})
 
 
-module.exports = mongoose.model('chargemapStations', Stations)
+module.exports = mongoose.model('Stations', Stations)

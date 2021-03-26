@@ -18,3 +18,16 @@ const Connections = new Schema({
 }, {collection: 'connections'})
 
 module.exports = mongoose.model('Connections', Connections)
+
+    // .populate({
+    //     path: 'classes',
+    //     model: 'Classroom',
+    //     populate: [{
+    //         path: 'instructors',
+    //         model: 'User'
+    //     },
+    //         {
+    //             path: 'location',
+    //             model: 'Location'
+    //         }]
+    // })
