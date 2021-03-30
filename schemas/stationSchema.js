@@ -3,7 +3,7 @@ const { ApolloServer, gql } = require('apollo-server');
 const stationSchema = gql`
    extend type Query {
      station(id: ID!): Station
-     stations(limit: String): [Station]
+     stations(limit: String, bounds :Bounds): [Station]
    }
     
    type Location {
@@ -11,7 +11,15 @@ const stationSchema = gql`
     coordinates: [String]
    }
    
-  
+   input Bounds {
+   _southWest: LatLon
+   _northEast: LatLon
+   }
+   
+   input LatLon {
+   lat: Float
+   lng: Float
+   }
    
    type Station{
       id: ID
