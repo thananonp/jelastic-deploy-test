@@ -10,6 +10,12 @@ const connectionTypeSchema = gql`
     FormalName: String
     Title: String  
    }
+    
+    input ConnectionTypeInput{
+        id: ID
+        FormalName: String
+        Title: String
+    }
    
 `;
 
