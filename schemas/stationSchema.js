@@ -11,18 +11,7 @@ const stationSchema = gql`
     coordinates: [String]
    }
    
-   type ConnectionType{
-    id: ID
-    FormalName: String
-    Title: String  
-   }
-   
-   type CurrentType{
-    id: ID
-    Description: String
-    Title: String
-   }
-   
+  
    
    type Station{
       id: ID
