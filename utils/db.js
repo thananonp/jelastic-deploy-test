@@ -1,17 +1,20 @@
 //module is in strict mode by default ;)
 const mongoose = require('mongoose');
 
-(async () => {
+const connectMongo = async () => {
     try {
-        await mongoose.connect(process.env.DB_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useFindAndModify: false
-        });
-        console.log('DB connected successfully');
-    } catch (err) {
-        console.error('Connection to db failed', err);
+        const connection = await mongoose.connect(process.env.MONGODB_URI,
+            {
+                useNewUrlParser: true,
+                useFindAndModify: false,
+                useCreateIndex: true,
+                useUnifiedTopology: true,
+            });
+        return connection;
+    } catch (e) {
+        console.log('Connection to db failed: ' + e);
     }
-})();
+};
+
 
 module.exports = mongoose.connection;
