@@ -6,7 +6,7 @@ module.exports = {
             return Connection.findById(args.id)
         },
         connections: (parent, args) => {
-            console.log("stations")
+            // console.log("stations")
             return Connection
                 .find()
                 .then(connection => connection)

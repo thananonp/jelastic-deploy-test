@@ -8,7 +8,7 @@ module.exports = {
     },
     Connections: {
         CurrentType(parent) {
-            console.log(parent)
+            // console.log(parent)
             return Current
                 .findById(parent.CurrentTypeID)
                 .then(current => current)

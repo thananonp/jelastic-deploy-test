@@ -8,7 +8,7 @@ module.exports = {
     },
     Connections: {
         LevelType(parent) {
-            console.log(parent)
+            // console.log(parent)
             return Level
                 .findById(parent.LevelID)
                 .then(level => level)
