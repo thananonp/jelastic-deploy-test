@@ -30,7 +30,7 @@ const stationSchema = gql`
     IsFastChargeCapable: Boolean
     }
    
-   type Station {
+   type Station{
       id: ID
       Title: String
       Town: String
