@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server');
 
-const stationSchema = gql`
+const connectionSchema = gql`
    extend type Query {
      connection(id: ID!): Connections
      connections(limit: String): [Connections]
@@ -16,4 +16,4 @@ const stationSchema = gql`
    
 `;
 
-module.exports = stationSchema
+module.exports = connectionSchema

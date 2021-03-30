@@ -1,7 +1,7 @@
 const {gql} = require('apollo-server-express')
 const stationSchema = require('./stationSchema')
 const connectionSchema = require('./connectionSchema.js')
-
+const levelSchema = require('./levelSchema')
 const linkSchema = gql`
    type Query {
      _: Boolean
@@ -11,4 +11,4 @@ const linkSchema = gql`
    }
 `;
 
-module.exports = [linkSchema, stationSchema, connectionSchema]
+module.exports = [linkSchema, stationSchema, connectionSchema, levelSchema]

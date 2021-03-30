@@ -23,12 +23,6 @@ const stationSchema = gql`
     Title: String
    }
    
-   type LevelType{
-    id:ID
-    Title: String
-    Comments: String
-    IsFastChargeCapable: Boolean
-    }
    
    type Station{
       id: ID
