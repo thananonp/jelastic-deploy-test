@@ -20,10 +20,9 @@ module.exports = {
             newArgs.Connections = generate
             console.log("newArgs", newArgs)
             const newStation = new Station(newArgs)
-            let b = newStation.save()
-            console.log(b)
-
-
+            let b = await newStation.save()
+            console.log("B", b)
+            return b
         }
     },
     Query: {

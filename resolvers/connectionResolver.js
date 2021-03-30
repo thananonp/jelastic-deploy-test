@@ -18,12 +18,15 @@ module.exports = {
     },
     Station: {
         Connections(parent) {
-            // console.log("Parent", parent)
+            console.log("Parent", parent.Connections)
             return parent.Connections.map(async connection => {
                 return Connection
-                    .findById(parent.Connections)
+                    .findById(connection)
                     .then(
-                        connection => connection
+                        connection => {
+                            console.log(connection)
+                            return connection
+                        }
                     )
                     .catch(e => {
                         console.log(e)
