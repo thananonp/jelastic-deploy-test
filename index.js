@@ -1,4 +1,6 @@
 'use strict';
+const mongoose = require("mongoose");
+const {ApolloServer} = require('apollo-server-express')
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -6,14 +8,11 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const passport = require('./utils/PassportAuth')
 const PORT = 3000;
-const {ApolloServer} = require('apollo-server-express')
 
-const schemas = require('./schemas/index.js');
-const resolvers = require('./resolvers/index.js');
-
-
-const db = require('./utils/db');
+// const db = require('./utils/db');
 const requestLogger = require('./utils/requestLogger')
+const schemas = require('./schemas/index.js')
+const resolvers = require('./resolvers/index.js')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -22,16 +21,25 @@ app.use(cors());
 
 (async () => {
     try {
-        db.on('connected', () => {
-            app.listen(3000);
+        await mongoose.connect(process.env.DB_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false
         });
+        console.log('DB connected successfully');
 
         const server = new ApolloServer({
             typeDefs: schemas,
             resolvers,
         });
 
-        const app = express();
+        // const app = express();
+
+
+// and/or app.use(express.json()); // for parsing application/json
+        app.use('/auth', require('./routes/AuthRoute'))
+// app.use('/cat', require('./routes/catRoute'));
+        app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
 
         server.applyMiddleware({app});
 
@@ -45,8 +53,4 @@ app.use(cors());
 })();
 
 // for parsing html form x-www-form-urlencoded
-// and/or app.use(express.json()); // for parsing application/json
-app.use('/auth', require('./routes/AuthRoute'))
-// app.use('/cat', require('./routes/catRoute'));
-app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
 

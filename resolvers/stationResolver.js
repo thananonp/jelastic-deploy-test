@@ -6,6 +6,7 @@ module.exports = {
             return Station.findById(args.id)
         },
         stations: (parent, args) => {
+            console.log("stations")
             return Station
                 .find()
                 .then(station => station)

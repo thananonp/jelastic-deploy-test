@@ -1,3 +1,3 @@
-const stationResolver = ('./stationResolver');
+const stationResolver = require('./stationResolver.js');
 
 module.exports =  [stationResolver]
