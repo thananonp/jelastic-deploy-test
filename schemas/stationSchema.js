@@ -16,6 +16,15 @@ const stationSchema = gql`
             Postcode: String
             Location: LocationInput
             Connections:[ConnectionsInput]
+        ): Station,
+        modifyStation(
+            id: ID,
+            Connections: [ConnectionsInput]
+            Postcode: String
+            Title: String
+            AddressLine1: String
+            StateOrProvince: String
+            Town: String
         ): Station
     }
 
