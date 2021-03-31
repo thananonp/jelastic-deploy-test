@@ -1,6 +1,7 @@
 const Station = require('../models/Stations')
 const Connection = require('../models/Connections')
 const ObjectId = require('mongoose').Types.ObjectId;
+const rectanglesBounds = require('../utils/utilFunction')
 
 module.exports = {
     Mutation: {
@@ -39,14 +40,26 @@ module.exports = {
             return Station.findById(args.id)
         },
         stations: (parent, args) => {
-            return Station
-                .find()
-                .limit(args.limit)
-                .then(station => station)
-                .catch(e => {
-                    console.error(e)
-                    return e
-                })
+            if (args.bounds) {
+                return Station
+                    .find({
+                        Location: {
+                            $geoWithin: {
+                                $geometry: rectanglesBounds(args.bounds._northEast, args.bounds._southWest)
+                            }
+                        }
+                    })
+                    .limit(args.limit ? args.limit : 10)
+            } else {
+                return Station
+                    .find()
+                    .limit(args.limit ? args.limit : 10)
+                    .then(station => station)
+                    .catch(e => {
+                        console.error(e)
+                        return e
+                    })
+            }
         }
     }
 }
