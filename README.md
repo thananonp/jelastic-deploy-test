@@ -39,8 +39,3 @@ You need to specify the id to delete
 ## Command
 To run `npm start`
 To test `npm run dev`
-
-# week-3-chargemap
-
-## About
-In this week I implement the GraphQL into the application. You can find the GraphQL playground when you start the project.
