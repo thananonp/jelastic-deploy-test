@@ -1,5 +1,5 @@
 'use strict';
-const users = [
+const usersController = [
   {
     id: '1',
     name: 'John Doe',
@@ -15,7 +15,7 @@ const users = [
 ];
 
 const getUserLogin = (email) => {
-  const user = users.filter((usr) => {
+  const user = usersController.filter((usr) => {
     if (usr.email === email) {
       return usr;
     }
@@ -24,6 +24,6 @@ const getUserLogin = (email) => {
   return user[0];
 };
 module.exports = {
-  users,
+  users: usersController,
   getUserLogin
 };

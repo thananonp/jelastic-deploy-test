@@ -7,7 +7,7 @@ const app = express();
 const PORT = 3000;
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const passport = require('./utils/PassportAuth');
+const passport = require('./utils/passportAuth');
 const schemas = require('./schemas/index.js');
 const resolvers = require('./resolvers/index.js');
 

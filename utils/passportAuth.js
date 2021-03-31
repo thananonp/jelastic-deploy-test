@@ -1,7 +1,7 @@
 'use strict';
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
-const userModel = require('../controllers/Users');
+const userModel = require('../controllers/usersController');
 const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
