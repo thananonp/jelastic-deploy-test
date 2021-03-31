@@ -1,8 +1,8 @@
-# week-2-chargemap
 
+# week-3-chargemap
 ## About
-https://gitlab.metropolia.fi/ilkkamtk/sssf-course/-/blob/master/week2/homework.md
-This project is a homework of week 2. And this repo should be on Metropolia Jelastic.
+https://gitlab.metropolia.fi/ilkkamtk/sssf-course/-/blob/master/week3/graphql.md
+In this week I implement the GraphQL into the application. You can find the GraphQL playground when you start the project.
 
 ## Command
 ### Authentication (Getting JWT for Bearer Token)
@@ -40,7 +40,4 @@ You need to specify the id to delete
 To run `npm start`
 To test `npm run dev`
 
-# week-3-chargemap
 
-## About
-In this week I implement the GraphQL into the application. You can find the GraphQL playground when you start the project.
