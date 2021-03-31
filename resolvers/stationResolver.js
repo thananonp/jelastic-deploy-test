@@ -5,31 +5,18 @@ const ObjectId = require('mongoose').Types.ObjectId;
 module.exports = {
     Mutation: {
         addStation: async (parent, args) => {
-            console.log(args)
-            let connectionIDArray = args.Connections.map(connection => {
+            const connectionIDArray = args.Connections.map(connection => {
                 return connection
             })
-            console.log("connectionIDArray", connectionIDArray)
-
-            let generate = await Promise.all(connectionIDArray.map(connection => {
+            args.Connections = await Promise.all(connectionIDArray.map(connection => {
                 const generate = new Connection(connection)
                 return generate.save()
             }))
-
-            console.log("generate", generate)
-            const newArgs = {...args}
-            newArgs.Connections = generate
-            console.log("newArgs", newArgs)
-            const newStation = new Station(newArgs)
-            let b = await newStation.save()
-            console.log("B", b)
-            return b
+            const newStation = new Station(args)
+            return newStation.save()
         },
         modifyStation: async (parent, args) => {
-            console.log("All Connections", args.Connections)
-            const editConnection = args.Connections
-            const newConnection = await Promise.all(editConnection.map(async connection => {
-                console.log("connection", connection)
+            args.Connections = await Promise.all(args.Connections.map(async connection => {
                 return Connection
                     .findOneAndUpdate({_id: connection.id}, {
                         ConnectionTypeID: ObjectId(connection.ConnectionTypeID),
@@ -38,13 +25,11 @@ module.exports = {
                         Quantity: connection.Quantity
                     });
             }))
-            console.log(newConnection)
-            args.Connections = newConnection
-            return Station.findOneAndUpdate(args.id, args);
+            return Station.findOneAndUpdate(args.id, args, {new: true});
         },
         deleteStation: (parent, args) => {
             return Station
-                .deleteOne({_id:ObjectId(args.id)})
+                .deleteOne({_id: ObjectId(args.id)})
         }
 
 
@@ -54,8 +39,6 @@ module.exports = {
             return Station.findById(args.id)
         },
         stations: (parent, args) => {
-            console.log("args", args)
-            console.log("stations")
             return Station
                 .find()
                 .limit(args.limit)
