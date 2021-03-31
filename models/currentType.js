@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const CurrentTypes = new Schema({
+const CurrentType = new Schema({
     Description: {
         type: String
     },
@@ -9,4 +9,4 @@ const CurrentTypes = new Schema({
         type: String
     }
 }, {collection: 'currenttypes'})
-module.exports = mongoose.model('CurrentTypes', CurrentTypes)
+module.exports = mongoose.model('CurrentType', CurrentType)

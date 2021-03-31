@@ -35,6 +35,7 @@ const stationSchema = gql`
         type: String
         coordinates: [String]
     }
+    
     input LocationInput {
         type: String
         coordinates: [Float]

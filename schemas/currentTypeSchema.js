@@ -10,6 +10,7 @@ const currentTypeSchema = gql`
         Description: String
         Title: String
     }
+    
     input CurrentTypeInput{
         id: ID
         Description: String

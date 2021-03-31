@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const Levels = new Schema({
+const LevelType = new Schema({
     Comments: {
         type: String
     },
@@ -14,4 +14,4 @@ const Levels = new Schema({
     }
 },{collection:'levels'})
 
-module.exports = mongoose.model('levels', Levels)
+module.exports = mongoose.model('levels', LevelType)

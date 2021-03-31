@@ -6,12 +6,12 @@ const connectionTypeSchema = require('./connectionTypeSchema')
 const currentTypeSchema = require('./currentTypeSchema')
 
 const linkSchema = gql`
-   type Query {
-     _: Boolean
-   }
-   type Mutation {
-     _: Boolean
-   }
+    type Query {
+        _: Boolean
+    }
+    type Mutation {
+        _: Boolean
+    }
 `;
 
 module.exports = [linkSchema, stationSchema, connectionSchema, levelSchema

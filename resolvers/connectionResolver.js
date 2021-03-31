@@ -1,4 +1,4 @@
-const Connection = require('../models/Connections')
+const Connection = require('../models/connection')
 
 module.exports = {
     Query: {

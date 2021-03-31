@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const Stations = new Schema({
+const Station = new Schema({
     // _id: {type: Schema.Types.ObjectId},
     Title: {type: String},
     Town: {type: String},
@@ -27,4 +27,4 @@ const Stations = new Schema({
 }, {collection: 'stations'})
 
 
-module.exports = mongoose.model('Stations', Stations)
+module.exports = mongoose.model('Station', Station)

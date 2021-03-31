@@ -1,4 +1,4 @@
-const Level = require('../models/Levels')
+const Level = require('../models/levelType')
 
 module.exports = {
     Query: {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const Connections = new Schema({
+const Connection = new Schema({
     ConnectionTypeID: {
         type: Schema.Types.ObjectId, ref: 'ConnectionTypes'
     },
@@ -17,4 +17,4 @@ const Connections = new Schema({
     }
 }, {collection: 'connections'})
 
-module.exports = mongoose.model('Connections', Connections)
+module.exports = mongoose.model('Connections', Connection)

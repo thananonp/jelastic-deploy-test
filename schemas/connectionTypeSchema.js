@@ -6,11 +6,11 @@ const connectionTypeSchema = gql`
     }
 
     type ConnectionType{
-    id: ID
-    FormalName: String
-    Title: String  
-   }
-    
+        id: ID
+        FormalName: String
+        Title: String
+    }
+
     input ConnectionTypeInput{
         id: ID
         FormalName: String

@@ -1,4 +1,4 @@
-const Current = require('../models/CurrentTypes')
+const Current = require('../models/currentType')
 
 module.exports = {
     Query:{

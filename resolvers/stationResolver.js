@@ -1,5 +1,5 @@
-const Station = require('../models/Stations')
-const Connection = require('../models/Connections')
+const Station = require('../models/station')
+const Connection = require('../models/connection')
 const ObjectId = require('mongoose').Types.ObjectId;
 const rectanglesBounds = require('../utils/utilFunction')
 

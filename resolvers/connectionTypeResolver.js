@@ -1,4 +1,4 @@
-const ConnectionType = require('../models/ConnectionTypes')
+const ConnectionType = require('../models/connectionType')
 
 module.exports = {
     Query: {
