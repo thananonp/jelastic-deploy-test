@@ -41,6 +41,10 @@ module.exports = {
             console.log(newConnection)
             args.Connections = newConnection
             return Station.findOneAndUpdate(args.id, args);
+        },
+        deleteStation: (parent, args) => {
+            return Station
+                .deleteOne({_id:ObjectId(args.id)})
         }
 
 

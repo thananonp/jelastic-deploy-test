@@ -25,6 +25,9 @@ const stationSchema = gql`
             AddressLine1: String
             StateOrProvince: String
             Town: String
+        ): Station,
+        deleteStation(
+            id:ID
         ): Station
     }
 
