@@ -5,7 +5,6 @@ const ConnectionTypes = require('../models/connectionType')
 const Levels = require('../models/levelType')
 const rectanglesBounds = require('../utils/utilFunction')
 const ObjectId = require('mongoose').Types.ObjectId;
-const chargeMapRouter = require('express').Router();
 
 const populateChild = {
     path: 'Connections', model: 'Connections',
