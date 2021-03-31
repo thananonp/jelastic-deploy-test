@@ -95,25 +95,21 @@ chargeMapRouter
     })
     .patch(async (req, res) => {
         const receivedStation = req.body
-        const editingIdStation = receivedStation.Station._id
-        receivedStation.Connections.map(async connection => {
-                await Connections
+        receivedStation.Connections = await Promise.all(receivedStation.Connections.map(async connection => {
+                console.log(connection)
+                return Connections
                     .findOneAndUpdate({_id: connection._id}, {
                         ConnectionTypeID: ObjectId(connection.ConnectionTypeID),
                         CurrentTypeID: ObjectId(connection.CurrentTypeID),
                         LevelID: ObjectId(connection.LevelID),
                         Quantity: connection.Quantity
-                    }, {new: true})
-                    .then(result => {
-                        console.log("RESULT", result)
-                    }).catch(e => {
-                        console.log(e)
-                        res.sendStatus(400)
                     })
             }
-        )
+        ))
+        console.log("Connections", receivedStation.Connections)
+        console.log("New Array", receivedStation)
         Stations
-            .findOneAndUpdate({"_id": editingIdStation}, {
+            .findOneAndUpdate({"_id": receivedStation.Station._id}, {
                 Title: receivedStation.Station.Title,
                 Town: receivedStation.Station.Town,
                 AddressLine1: receivedStation.Station.AddressLine1,
@@ -121,9 +117,10 @@ chargeMapRouter
                 Postcode: receivedStation.Station.Postcode,
                 Location: receivedStation.Station.Location,
                 Connections: receivedStation.Connections
-            })
+            }, {new: true})
             .populate(populateChild)
             .then(result => {
+                console.log("result", result)
                 res.send(result)
             }).catch(e => {
             console.log(e)
