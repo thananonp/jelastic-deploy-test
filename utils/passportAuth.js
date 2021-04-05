@@ -15,31 +15,31 @@ passport.use(new Strategy({usernameField: "email", passwordField: "password"},
         // const params = username;
         try {
             const user = await userModel.getUserLogin(email);
-            console.log(password)
-            console.log(user.password)
-            console.log('Local strategy', user); // result is binary row
+            console.log("Strategy received password:",password)
+            console.log("Strategy user password",user.password)
+            // console.log('Strategy', user); // result is binary row
             if (user === undefined) {
-                console.log("undefined")
+                console.log("Strategy user undefined")
                 setTimeout(() => {
                     return done(null, false, {message: 'Incorrect email.'});
                 }, 1000)
             }
             bcrypt.compare(password, user.password, (err, result) => {
-                console.log("result", result)
+                console.log("Strategy result", result)
                 if (result) {
-                    console.log("logging in")
+                    console.log("Strategy logging in")
                     setTimeout(() => {
                         delete user.password
                         return done(null, {...user}, {message: 'Logged In Successfully'});
                     }, 500)
                 } else {
-                    console.log("password incorrect")
+                    console.log("Strategy password incorrect")
                     setTimeout(() => {
                         return done(null, false, {message: 'Incorrect password.'});
                     }, 500)
                 }
             })
-            console.log("successfully")
+            console.log("Strategy successfully")
 
             // use spread syntax to create shallow copy to get rid of binary row type
         } catch (err) {
@@ -57,15 +57,15 @@ passport.use(new JWTStrategy({
 
             //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
             const user = await userModel.getUserLogin(jwtPayload.email);
-            console.log(jwtPayload.password)
-            console.log(user.password)
-            console.log('Local strategy', user); // result is binary row
+            console.log("JWTStrategy payload password",jwtPayload.password)
+            console.log("JWTStrategy user password",user.password)
+            // console.log('Local strategy', user); // result is binary row
 
             if (user.password !== jwtPayload.password) {
-                console.log("password incorrect")
+                console.log("JWTStrategy password incorrect")
                 return done(null, false, {message: 'Incorrect password.'});
             }
-            console.log("successfully")
+            console.log("JWTStrategy successfully")
 
             return done(null, user, {message: 'Logged In Successfully'}); // use spread syntax to create shallow copy to get rid of binary row type
         } catch

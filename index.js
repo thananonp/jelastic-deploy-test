@@ -15,6 +15,9 @@ const resolvers = require('./resolvers/index.js');
 const bcrypt = require("bcrypt");
 const {ValidationError} = require("apollo-server-errors");
 const helmet = require('helmet')
+const JWTAuth = require("./utils/jwtAuth");
+const jwt = require("jsonwebtoken");
+const {AuthenticationError} = require("apollo-server-errors");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -37,32 +40,51 @@ const options = {
         });
         console.log('MongoDB connected successfully');
 
-        // const password = '1234'
-        // const hash = await bcrypt.hash(password,12)
-        // console.log(password,hash)
-
         const server = new ApolloServer({
             typeDefs: schemas,
             resolvers,
             context: async ({req, res}) => {
                 if (req) {
-                    const user = await checkAuth(req, res);
-                    console.log('app', user);
-                    if (!user) {
-                        throw new ValidationError("Credential not recognized")
-                    } else {
+                    const token = req.headers.authorization || '';
+                    console.log("token", token)
+                    passport.authenticate('local', {session: false}, (err, user, info) => {
+                        console.log("error",err)
+                        console.log("user",user)
+                        if (err || !user) {
+
+                            // return res.status(400).json({
+                            //     message: 'Something is not right',
+                            //     user: user
+                            // });
+                        }
+                        req.login(user, {session: false}, (err) => {
+                            if (err) {
+                                res.send(err);
+                            }
+                            // generate a signed son web token with the contents of user object and return it in the response
+                            const token = jwt.sign(user, 'your_jwt_secret');
+                            console.log("Inside token", token)
+                            // return res.json({user, token});
+                        });
+
+                    })(req, res);
+
+                    console.log('user', user);
+                    if (user) {
                         return {
                             req,
                             res,
                             user,
                         };
+                    } else {
+                        throw new AuthenticationError("Credential not recognized")
                     }
                 }
             },
 
         });
 
-        https.createServer(options, app).listen(8000)
+        // https.createServer(options, app).listen(8000)
         app.use(helmet({
             ieNoOpen: false
         }))
