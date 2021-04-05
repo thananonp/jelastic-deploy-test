@@ -18,7 +18,7 @@ const helmet = require('helmet')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cors());
+// app.use(cors());
 
 const sslkey = fs.readFileSync('ssl-key.pem');
 const sslcert = fs.readFileSync('ssl-cert.pem')
@@ -26,8 +26,6 @@ const options = {
     key: sslkey,
     cert: sslcert
 };
-
-
 
 
 (async () => {
@@ -64,11 +62,15 @@ const options = {
 
         });
 
-        https.createServer(options,app).listen(8000)
+        https.createServer(options, app).listen(8000)
         app.use(helmet({
-            ieNoOpen:false
+            ieNoOpen: false
         }))
 
+
+        app.use('/cors-enabled', cors(), (req, res, next) => {
+            res.json({msg: 'This is CORS-enabled for a Single Route'})
+        })
         app.use('/auth', require('./routes/authRoute'))
         // app.use('/chargemap', checkAuth, require('./routes/chargemapRoute'))
         app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
