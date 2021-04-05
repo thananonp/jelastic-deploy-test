@@ -1,4 +1,6 @@
 'use strict';
+const https = require('https')
+const fs = require('fs')
 require('dotenv').config();
 const mongoose = require("mongoose");
 const {ApolloServer} = require('apollo-server-express')
@@ -10,22 +12,21 @@ const cors = require('cors');
 const passport = require('./utils/passportAuth');
 const schemas = require('./schemas/index.js');
 const resolvers = require('./resolvers/index.js');
+const bcrypt = require("bcrypt");
 const {ValidationError} = require("apollo-server-errors");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-const checkAuth = (req, res, next) => {
-    passport.authenticate('local', function(err, user, info) {
-        if (err) { return next(err); }
-        if (!user) { return res.redirect('/login'); }
-        req.logIn(user, function(err) {
-            if (err) { return next(err); }
-            return res.redirect('/users/' + user.username);
-        });
-    })(req, res, next);
+const sslkey = fs.readFileSync('ssl-key.pem');
+const sslcert = fs.readFileSync('ssl-cert.pem')
+const options = {
+    key: sslkey,
+    cert: sslcert
 };
+
+
 
 
 (async () => {
@@ -36,6 +37,10 @@ const checkAuth = (req, res, next) => {
             useFindAndModify: false
         });
         console.log('MongoDB connected successfully');
+
+        // const password = '1234'
+        // const hash = await bcrypt.hash(password,12)
+        // console.log(password,hash)
 
         const server = new ApolloServer({
             typeDefs: schemas,
@@ -58,9 +63,11 @@ const checkAuth = (req, res, next) => {
 
         });
 
+        https.createServer(options,app).listen(8000)
+
         app.use('/auth', require('./routes/authRoute'))
-        app.use('/chargemap', checkAuth, require('./routes/chargemapRoute'))
-        // app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
+        // app.use('/chargemap', checkAuth, require('./routes/chargemapRoute'))
+        app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
 
         server.applyMiddleware({app});
 
