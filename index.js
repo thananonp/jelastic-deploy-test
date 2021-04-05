@@ -14,6 +14,7 @@ const schemas = require('./schemas/index.js');
 const resolvers = require('./resolvers/index.js');
 const bcrypt = require("bcrypt");
 const {ValidationError} = require("apollo-server-errors");
+const helmet = require('helmet')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -64,6 +65,9 @@ const options = {
         });
 
         https.createServer(options,app).listen(8000)
+        app.use(helmet({
+            ieNoOpen:false
+        }))
 
         app.use('/auth', require('./routes/authRoute'))
         // app.use('/chargemap', checkAuth, require('./routes/chargemapRoute'))
