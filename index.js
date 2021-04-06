@@ -1,5 +1,6 @@
 'use strict';
 const https = require('https')
+const http = require('http');
 const fs = require('fs')
 require('dotenv').config();
 const mongoose = require("mongoose");
@@ -12,11 +13,7 @@ const cors = require('cors');
 const passport = require('./utils/passportAuth');
 const schemas = require('./schemas/index.js');
 const resolvers = require('./resolvers/index.js');
-const bcrypt = require("bcrypt");
-const {ValidationError} = require("apollo-server-errors");
 const helmet = require('helmet')
-const JWTAuth = require("./utils/jwtAuth");
-const jwt = require("jsonwebtoken");
 const {AuthenticationError} = require("apollo-server-errors");
 
 app.use(bodyParser.json());
@@ -61,7 +58,12 @@ const options = {
 
         });
 
-        // https.createServer(options, app).listen(8000)
+        http.createServer((req, res) => {
+            res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
+            res.end();
+        }).listen(3001);
+
+        https.createServer(options, app).listen(8000)
 
 
         app.use('/cors-enabled', cors(), (req, res, next) => {
@@ -70,6 +72,10 @@ const options = {
         app.use('/auth', require('./routes/authRoute'))
         // app.use('/chargemap', checkAuth, require('./routes/chargemapRoute'))
         app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
+        app.get('/', (req, res) => {
+            res.send('Hello Secure World!');
+        });
+
 
         server.applyMiddleware({app});
 
