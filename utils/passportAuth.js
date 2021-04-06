@@ -29,7 +29,7 @@ passport.use(new Strategy({usernameField: "email", passwordField: "password"},
                 if (result) {
                     console.log("Strategy logging in")
                     setTimeout(() => {
-                        delete user.password
+                        // delete user.password
                         return done(null, {...user}, {message: 'Logged In Successfully'});
                     }, 500)
                 } else {
@@ -55,6 +55,7 @@ passport.use(new JWTStrategy({
     async function (jwtPayload, done) {
         try {
 
+            console.log("JWT PAYLOAD", jwtPayload)
             //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
             const user = await userModel.getUserLogin(jwtPayload.email);
             console.log("JWTStrategy payload password",jwtPayload.password)
