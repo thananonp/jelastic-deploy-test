@@ -27,6 +27,7 @@ const options = {
     cert: sslcert
 };
 
+app.enable('trust proxy');
 
 (async () => {
     try {
@@ -57,6 +58,17 @@ const options = {
             },
 
         });
+        app.use ((req, res, next) => {
+            if (req.secure) {
+                // request was via ttps, so do no special handling
+                console.log("secure")
+                next();
+            } else {
+                // request was via http, so redirect to https
+                console.log("normal HTTP")
+                res.redirect('https://' + req.headers.host + req.url);
+            }
+        });
 
         http.createServer((req, res) => {
             res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
@@ -66,7 +78,9 @@ const options = {
         https.createServer(options, app).listen(8000)
 
 
-        app.use('/cors-enabled', cors(), (req, res, next) => {
+
+
+        app.use('/cors-enabled', cors(), (req, res) => {
             res.json({msg: 'This is CORS-enabled for a Single Route'})
         })
         app.use('/auth', require('./routes/authRoute'))
