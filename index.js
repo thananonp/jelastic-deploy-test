@@ -17,7 +17,7 @@ db.on('connected', () => {
     app.listen(PORT);
 });
 
-app.use('/auth', require('./routes/AuthRoute'))
+app.use('/auth', require('./routes/authRoute'))
 app.use('/chargemap', require('./routes/chargemapRoute'))
 // app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
 
