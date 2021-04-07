@@ -23,6 +23,7 @@ const populateChild = {
 const getStations = async (req, res) => {
     const limit = req.query.limit ? Number(req.query.limit) : 10;
     console.log("/stations limit=", limit)
+    console.log("(req.query.topRight && req.query.bottomLeft)", req.query.topRight, req.query.bottomLeft)
     if (req.query.topRight === undefined && req.query.bottomLeft === undefined) {
         await Stations
             .find()
@@ -46,6 +47,7 @@ const getStations = async (req, res) => {
                     }
                 }
             })
+            .limit(limit)
             .populate(populateChild)
             .then(response => res.send(response))
             .catch(e => res.send(e))
