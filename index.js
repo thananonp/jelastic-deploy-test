@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const passport = require('./utils/PassportAuth')
+// const passport = require('./utils/PassportAuth')
 const PORT = 3000;
 
 const db = require('./utils/db');
@@ -18,5 +18,6 @@ db.on('connected', () => {
 });
 
 app.use('/auth', require('./routes/AuthRoute'))
-app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
+app.use('/chargemap', require('./routes/chargemapRoute'))
+// app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
 
