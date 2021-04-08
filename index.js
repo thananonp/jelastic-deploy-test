@@ -10,6 +10,7 @@ const cors = require('cors');
 const passport = require('./utils/passportAuth');
 const schemas = require('./schemas/index.js');
 const resolvers = require('./resolvers/index.js');
+const AuthenticationError = require("passport/lib/errors/authenticationerror");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -27,6 +28,21 @@ app.use(cors());
         const server = new ApolloServer({
             typeDefs: schemas,
             resolvers,
+            // context: async ({req, res}) => {
+            //     if (req) {
+            //         const token = req.headers.authorization || '';
+            //         console.log("token", token)
+            //         passport.authenticate('jwt', {session: false}, (err, user) => {
+            //             if (err || !user) {
+            //                 throw new AuthenticationError("Credential not recognized")
+            //             } else {
+            //                 return {
+            //                     user
+            //                 };
+            //             }
+            //         })(req, res);
+            //     }
+            // },
         });
 
         app.use('/auth', require('./routes/authRoute'))

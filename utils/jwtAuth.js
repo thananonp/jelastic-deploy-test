@@ -40,9 +40,9 @@ const gqlLogin = (req, res) => {
                     //         reject(err);
                     //     }
                     //     // generate a signed son web token with the contents of user object and return it in the response
-                        const token = jwt.sign(user, 'your_jwt_secret');
-                        console.log("token", token)
-                        resolve({user, token});
+                    const token = jwt.sign(user, 'your_jwt_secret');
+                    console.log("token", token)
+                    resolve({user, token});
                     // });
                 } catch (e) {
                     reject({message: e.message});
