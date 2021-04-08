@@ -1,9 +1,11 @@
+
 const {gql} = require('apollo-server-express')
 const stationSchema = require('./stationSchema')
 const connectionSchema = require('./connectionSchema.js')
 const levelSchema = require('./levelSchema')
 const connectionTypeSchema = require('./connectionTypeSchema')
 const currentTypeSchema = require('./currentTypeSchema')
+const userSchema = require( "./userSchema")
 
 const linkSchema = gql`
     type Query {
@@ -15,4 +17,4 @@ const linkSchema = gql`
 `;
 
 module.exports = [linkSchema, stationSchema, connectionSchema, levelSchema
-    , connectionTypeSchema, currentTypeSchema]
+    , connectionTypeSchema, currentTypeSchema, userSchema]
