@@ -20,6 +20,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 // app.use(cors());
 
+const checkAuth = (req, res) => {
+    try {
+        return new Promise((resolve, reject) => {
+            passport.authenticate(
+                "jwt",
+                {session: false},
+                (err, user, info) => {
+                    if (!user) {
+                        resolve(false);
+                    }
+                    resolve(user);
+                }
+            )(req, res);
+        });
+    } catch (err) {
+        throw err;
+    }
+}
 
 (async () => {
     try {
@@ -37,16 +55,8 @@ app.use(bodyParser.urlencoded({extended: false}));
             context: async ({req, res}) => {
                 if (req) {
                     const token = req.headers.authorization || '';
-                    console.log("token", token)
-                    passport.authenticate('jwt', {session: false}, (err, user) => {
-                        if (err || !user) {
-                            throw new AuthenticationError("Credential not recognized")
-                        } else {
-                            return {
-                                user
-                            };
-                        }
-                    })(req, res);
+                    const user = await checkAuth(req, res)
+                    return {req, res, user}
                 }
             },
 
@@ -73,14 +83,6 @@ app.use(bodyParser.urlencoded({extended: false}));
         app.get('/', (req, res) => {
             res.send('Hello Secure World!');
         });
-
-
-        // app.listen({port: PORT}, () =>
-        //     console.log(
-        //         `GraphQL server =>  http://localhost:${PORT}${server.graphqlPath}`),
-        //         // `GraphQL server =>  http://localhost:${PORT}${server.graphqlPath}`),
-        // );
-
 
     } catch (e) {
         console.log('server error: ' + e.message);

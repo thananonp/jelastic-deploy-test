@@ -2,10 +2,14 @@ const Station = require('../models/station')
 const Connection = require('../models/connection')
 const ObjectId = require('mongoose').Types.ObjectId;
 const rectanglesBounds = require('../utils/utilFunction')
+const {AuthenticationError} = require("apollo-server-errors");
 
 module.exports = {
     Mutation: {
-        addStation: async (parent, args) => {
+        addStation: async (parent, args, context) => {
+            if (!context.user) {
+                throw new AuthenticationError("authentication failed");
+            }
             const connectionIDArray = args.Connections.map(connection => {
                 return connection
             })
@@ -16,7 +20,10 @@ module.exports = {
             const newStation = new Station(args)
             return newStation.save()
         },
-        modifyStation: async (parent, args) => {
+        modifyStation: async (parent, args, context) => {
+            if (!context.user) {
+                throw new AuthenticationError("authentication failed");
+            }
             args.Connections = await Promise.all(args.Connections.map(async connection => {
                 return Connection
                     .findOneAndUpdate({_id: connection.id}, {
@@ -28,7 +35,10 @@ module.exports = {
             }))
             return Station.findOneAndUpdate(args.id, args, {new: true});
         },
-        deleteStation: (parent, args) => {
+        deleteStation: (parent, args,context) => {
+            if (!context.user) {
+                throw new AuthenticationError("authentication failed");
+            }
             return Station
                 .deleteOne({_id: ObjectId(args.id)})
         }

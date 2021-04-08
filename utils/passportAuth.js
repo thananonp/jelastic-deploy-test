@@ -29,7 +29,6 @@ passport.use(new Strategy({usernameField: "email", passwordField: "password"},
                 if (result) {
                     console.log("Strategy logging in")
                     setTimeout(() => {
-                        // delete user.password
                         return done(null, {...user}, {message: 'Logged In Successfully'});
                     }, 500)
                 } else {
