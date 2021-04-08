@@ -27,8 +27,6 @@ const options = {
     cert: sslcert
 };
 
-app.enable('trust proxy');
-
 (async () => {
     try {
         await mongoose.connect(process.env.DB_URL, {
@@ -58,6 +56,13 @@ app.enable('trust proxy');
             },
 
         });
+
+        https.createServer(options, app).listen(8000)
+        http.createServer((req, res) => {
+            res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
+            res.end();
+        }).listen(3001);
+
         app.use ((req, res, next) => {
             if (req.secure) {
                 // request was via ttps, so do no special handling
@@ -70,16 +75,6 @@ app.enable('trust proxy');
             }
         });
 
-        http.createServer((req, res) => {
-            res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
-            res.end();
-        }).listen(3001);
-
-        https.createServer(options, app).listen(8000)
-
-
-
-
         app.use('/cors-enabled', cors(), (req, res) => {
             res.json({msg: 'This is CORS-enabled for a Single Route'})
         })
@@ -90,17 +85,18 @@ app.enable('trust proxy');
             res.send('Hello Secure World!');
         });
 
-
         server.applyMiddleware({app});
 
         app.listen({port: PORT}, () =>
             console.log(
-                `GraphQL server =>  http://localhost:${PORT}${server.graphqlPath}`),
+                `GraphQL server =>  https://localhost:${PORT}${server.graphqlPath}`),
+                // `GraphQL server =>  http://localhost:${PORT}${server.graphqlPath}`),
         );
 
         app.use(helmet({
             ieNoOpen: false
         }))
+
     } catch (e) {
         console.log('server error: ' + e.message);
     }
