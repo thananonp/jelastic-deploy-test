@@ -16,5 +16,4 @@ const linkSchema = gql`
     }
 `;
 
-module.exports = [linkSchema, stationSchema, connectionSchema, levelSchema
-    , connectionTypeSchema, currentTypeSchema, userSchema]
+module.exports = [linkSchema, stationSchema, connectionSchema, levelSchema , connectionTypeSchema, currentTypeSchema, userSchema]
