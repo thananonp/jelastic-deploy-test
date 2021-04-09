@@ -11,28 +11,29 @@ This project is a homework of week 2. And this repo should be on Metropolia Jela
 
 ### Find Charge Station by id
 
+GET method // specify using id
 `http://thananonp-test.jelastic.metropolia.fi/chargemap/station/{id}`
 
 ### List all Charge Station
-You can also specify query parameters (limit default=10, lat, lon) 
+GET method // You can also specify query parameters (limit default=10, topRight:{lat,lng}, bottomLeft:{lat,lng}) 
 
-`http://thananonp-test.jelastic.metropolia.fi/chargemap/stations?limit=1&lat={"lat": 35, "lon": 36}&lon={"lat": 24, "lon": 23}`
+`http://thananonp-test.jelastic.metropolia.fi/chargemap/stations?limit=1&topRight={"lat":60.2821946,"lng":25.036108}&bottomLeft={"lat":60.1552076,"lng":24.7816538}`
 
 ### Add Charge Station
 
-Data for creating the station need to be in the body
+POST method // Data for creating the station need to be in the body
 
 `http://thananonp-test.jelastic.metropolia.fi/chargemap/stations`
 
 ### Edit Charge Station
 
-Data for editing the station need to be in the body
+PATCH method // Data for editing the station need to be in the body
 
 `http://thananonp-test.jelastic.metropolia.fi/chargemap/stations`
 
 ### Delete Charge Station
 
-You need to specify the id to delete
+DELETE method // You need to specify the id to delete
 
 `http://thananonp-test.jelastic.metropolia.fi/chargemap/station/{id}`
 
