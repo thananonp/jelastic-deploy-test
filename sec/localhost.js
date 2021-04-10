@@ -12,14 +12,15 @@ const options = {
 };
 
 const httpsRedirect = (req, res) => {
-    res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
+    res.writeHead(301, {'Location': 'https://localhost:8000' + req.url});
     res.end();
 };
 
 const localhost = (app, httpsPort, httpPort) => {
     console.log("Localhost Environment")
-     https.createServer(options, app).listen(httpsPort);
-     http.createServer(httpsRedirect).listen(httpPort);
+    console.log("GRAPHQL PLAYGROUND @ https://localhost:8000/graphql")
+    https.createServer(options, app).listen(httpsPort);
+    http.createServer(httpsRedirect).listen(httpPort);
 };
 
 module.exports = {localhost};
