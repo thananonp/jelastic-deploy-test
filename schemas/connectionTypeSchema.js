@@ -2,16 +2,16 @@ const {ApolloServer, gql} = require('apollo-server');
 
 const connectionTypeSchema = gql`
     extend type Query {
-        connectiontypes: [ConnectionType]
+        connectiontypes: [ConnectionTypeID]
     }
 
-    type ConnectionType{
+    type ConnectionTypeID{
         id: ID
         FormalName: String
         Title: String
     }
 
-    input ConnectionTypeInput{
+    input ConnectionType{
         id: ID
         FormalName: String
         Title: String

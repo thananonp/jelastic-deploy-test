@@ -9,9 +9,9 @@ const connectionSchema = gql`
     type Connections{
         id: ID
         Quantity: String
-        ConnectionType: ConnectionType
-        CurrentType: CurrentType
-        LevelType: LevelType
+        ConnectionTypeID: ConnectionTypeID
+        CurrentTypeID: CurrentTypeID
+        LevelID: LevelID
     }
 
     input ConnectionsInput{

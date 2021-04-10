@@ -4,7 +4,7 @@ const stationSchema = gql`
 
     extend type Query {
         station(id: ID!): Station
-        stations(limit: Int, bounds :Bounds): [Station]
+        stations(limit: Int, start:Int, bounds :Bounds): [Station]
     }
 
     extend type Mutation {

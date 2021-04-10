@@ -35,12 +35,12 @@ module.exports = {
             }))
             return Station.findOneAndUpdate(args.id, args, {new: true});
         },
-        deleteStation: (parent, args,context) => {
+        deleteStation: (parent, args, context) => {
             if (!context.user) {
                 throw new AuthenticationError("authentication failed");
             }
             return Station
-                .deleteOne({_id: ObjectId(args.id)})
+                .findOneAndDelete({_id: ObjectId(args.id)})
         }
 
 

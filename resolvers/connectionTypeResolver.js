@@ -7,7 +7,7 @@ module.exports = {
         }
     },
     Connections: {
-        ConnectionType(parent) {
+        ConnectionTypeID(parent) {
             return ConnectionType
                 .findById(parent.ConnectionTypeID)
         }

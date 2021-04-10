@@ -2,10 +2,10 @@ const {ApolloServer, gql} = require('apollo-server');
 
 const currentTypeSchema = gql`
     extend type Query {
-        currenttypes: [CurrentType]
+        currenttypes: [CurrentTypeID]
     }
 
-    type CurrentType{
+    type CurrentTypeID{
         id: ID
         Description: String
         Title: String

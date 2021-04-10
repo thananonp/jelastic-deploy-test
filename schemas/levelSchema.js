@@ -2,10 +2,10 @@ const {ApolloServer, gql} = require('apollo-server');
 
 const levelSchema = gql`
     extend type Query {
-        leveltypes: [LevelType]
+        leveltypes: [LevelID]
     }
 
-    type LevelType{
+    type LevelID{
         id:ID
         Title: String
         Comments: String
