@@ -10,7 +10,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
 // local strategy for username password login
-passport.use(new Strategy({usernameField: "email", passwordField: "password"},
+passport.use('local',new Strategy({usernameField: "email", passwordField: "password"},
     async (email, password, done) => {
         // const params = username;
         try {
@@ -47,7 +47,7 @@ passport.use(new Strategy({usernameField: "email", passwordField: "password"},
     }));
 
 //authen token
-passport.use(new JWTStrategy({
+passport.use('jwt',new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey: 'your_jwt_secret'
     },

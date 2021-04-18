@@ -75,9 +75,9 @@ const checkAuth = (req, res) => {
         // app.use('/cors-enabled', cors(), (req, res) => {
         //     res.json({msg: 'This is CORS-enabled for a Single Route'})
         // })
-        app.use('/auth', require('./routes/authRoute'))
+        // app.use('/auth', require('./routes/authRoute'))
         // app.use('/chargemap', checkAuth, require('./routes/chargemapRoute'))
-        app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
+        // app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
         app.get('/', (req, res) => {
             res.send('<p>Hello Secure World! \n For GraphQL playground click <a href="/graphql">here</a> Does not work on Production Environment tho</p>');
         });
