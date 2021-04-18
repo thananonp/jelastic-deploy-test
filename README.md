@@ -12,7 +12,8 @@ This week implementation
 
 ## Deployment
 
-[Jelastic deployment link](http://thananonp-test.jelastic.metropolia.fi/)
+[Jelastic deployment link](https://thananonp-test.jelastic.metropolia.fi/)  
+Direct url to test graphQL = `https://thananonp-test.jelastic.metropolia.fi/graphql`
 
 ## Command to test on local
 
