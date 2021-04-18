@@ -1,6 +1,6 @@
 const { AuthenticationError } = require('apollo-server-errors');
-const User = require('../models/User.js');
-const passport = require('../utils/pass.js');
+const User = require('../models/User');
+const passport = require('../utils/pass');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
