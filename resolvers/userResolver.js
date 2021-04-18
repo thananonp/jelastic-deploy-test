@@ -1,11 +1,11 @@
-const { AuthenticationError } = require('apollo-server-errors');
+const {AuthenticationError} = require('apollo-server-errors');
 const User = require('../models/User');
 const passport = require('../utils/pass');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
     Query: {
-        user: async (parent, args, { user }) => {
+        user: async (parent, args, {user}) => {
             try {
                 console.log('userResolver', user);
                 // find user by id
@@ -14,18 +14,19 @@ module.exports = {
                 throw err;
             }
         },
-        login: async (parent, args, { req, res }) => {
+        login: async (parent, args, {req, res}) => {
             // call passport login (done in class)
             try {
                 return await new Promise((resolve, reject) => {
                     passport.authenticate(
                         'local',
-                        { session: false },
+                        {session: false},
                         (err, user, info) => {
                             if (err || !user) {
-                                throw new AuthenticationError('login failed');
+                                reject("Login failed")
+                                // throw new AuthenticationError('login failed');
                             }
-                            req.login(user, { session: false }, (err) => {
+                            req.login(user, {session: false}, (err) => {
                                 if (err) {
                                     throw err;
                                 }
@@ -37,10 +38,10 @@ module.exports = {
                                 });
                             });
                         }
-                    )({ body: args }, res);
+                    )({body: args}, res);
                 });
             } catch (err) {
-                throw err;
+                throw(err)
             }
         },
     },
