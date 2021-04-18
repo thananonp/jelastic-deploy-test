@@ -1,7 +1,7 @@
 const production = (app, port) => {
 
     console.log("Production Environment")
-    console.log(`Access the website at port:${process.env.PORT_HTTPS}`)
+    console.log(`Access the website at port:${port}`)
     app.enable('trust proxy');
 
     app.use((req, res, next) => {
@@ -12,7 +12,7 @@ const production = (app, port) => {
         }
     });
 
-    app.listen(3000);
+    app.listen(port);
 };
 
 module.exports = production;

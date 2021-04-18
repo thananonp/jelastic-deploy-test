@@ -79,7 +79,7 @@ const checkAuth = (req, res) => {
         // app.use('/chargemap', checkAuth, require('./routes/chargemapRoute'))
         app.use('/chargemap', passport.authenticate('jwt', {session: false}), require('./routes/chargemapRoute'))
         app.get('/', (req, res) => {
-            res.send('<p>Hello Secure World! \n For GraphQL playground click <a href="/graphql">here</a></p>');
+            res.send('<p>Hello Secure World! \n For GraphQL playground click <a href="/graphql">here</a> Does not work on Production Environment tho</p>');
         });
 
     } catch (e) {
